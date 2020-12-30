@@ -1,0 +1,72 @@
+---
+- name: working with modules
+  hosts: all
+  vars:
+    var1: 10
+  vars_files:
+    myvars.yml
+  tasks:
+#command module==========================================       
+    - name: this is command module
+      command:
+        uname -a 
+#copy module==========================================       
+    - name: Copy file with owner and permissions
+      copy:
+       src: /etc/hosts
+       dest: /etc/hosts
+       owner: ec2-user
+       group: root
+       mode: '0644'
+#file module==========================================       
+    - name: this is file module
+      file:
+       path: /tmp/jackvish.txt
+       owner: ec2-user
+       group: root
+       mode: '0666'
+       state: touch
+      
+#shell module==========================================       
+    - name: this is shell module
+      shell: |
+        date;
+        ifconfig | head -5
+        uptime
+        echo "this is vishnu"
+        yum install -y httpd
+        systemctl start httpd
+        systemctl enable httpd
+#executing python script===============================
+    - name: this exexutes the python script
+      copy:
+        src: ./test.py
+        dest: /home/ec2-user/test.py
+        owner: ec2-user
+        group: root
+        mode: '0555'
+#executing the copied script
+    - name: executing the script
+      shell: python /home/ec2-user/test.py
+      register: myoutput #storing the output in register
+
+#debug module to check the output and later streamline
+    - debug:
+        msg: "{{myoutput.stdout_lines[3]}}"
+
+#storing the output
+    - set_fact: myvar="{{myoutput.stdout_lines[1]}}"
+
+#printing the value 
+    - name: printing the input
+      command: echo "my var is {{myvar}}"
+
+#printing the variables
+    - name: printing the variable var1 and variables in the myvars file
+      shell: | 
+        echo "this is var1 {{var1}}"
+        uptime
+        echo "this is var2,3,4 from file {{var2}},{{var3}},{{var4}}}"
+#printing the variables in host_vars and server2_vars
+    - name: printing name variable from hosts_vars adn server2_vars
+      command: echo "this is printig from {{name}}"

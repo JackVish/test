@@ -1,0 +1,14 @@
+---
+- name: wporing with operators
+  hosts: all
+  vars: 
+    var1: 10
+    var2: 20
+    var3: 30
+  tasks: 
+    - name: working with and operator
+      command: echo "prnt this if below conditon is true"
+      when: var1 == 10 and var3 == 30
+    - name: working with logicical o opearors
+      command: echo "print this if below condion is true" 
+      when: var1<var2

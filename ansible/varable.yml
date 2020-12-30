@@ -1,0 +1,11 @@
+---
+- name: working on variable
+  hosts: server1
+  vars: 
+    myvariable: "JACKVISH"
+  tasks:
+    - name: printing vars
+      command: echo "priting variables {{myvariable}}"
+    
+      #    - name: debug module
+      # debug: msg

@@ -1,0 +1,29 @@
+---
+- name: working with loops
+  hosts: all
+  vars:
+    var4: 10
+    var5: 50
+    dict1 :
+      "mikes" : "vthsi is the value"
+      "key2"  : "this is value 2"
+  tasks: 
+   - name: working with with_items
+     command: echo "this is printing value of {{item}}"
+     with_items:
+       - 1
+       - 2
+       - 3
+       - 100
+   - name: working with fileglob
+     command: echo "printing the files in the ditedtory /tmp {{item}}"
+     with_fileglob: 
+       - "/tmp/f*" 
+   - name: working with all line in the file 
+     command: echo "printing the files in the ditedtory /tmp {{item}}"
+     with_lines:
+       - cat ./file1
+   - name: working with dictinary data types
+     command: echo "enter {{item.key}}==>{{item.value}}"
+     with_dict:
+       - "{{dict1}}"
