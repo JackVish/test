@@ -4,7 +4,7 @@ pipeline{
     stage ("this is vishnu"){ 
         steps {
           script { 
-                  sh "this is jackvish"
+                   bash "this is jackvish"
                   }
                 }
              }
